@@ -16,9 +16,18 @@
       background-color: wheat;
       border: 0.25rem solid #8EE4D7 ;
     }
+
+    .odd td {
+      background-color: #333333;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
+  <h1 class="hidden">BOOM</h1>
   <table>
     <tbody>
       <tr>
@@ -150,6 +159,7 @@
   <audio id="boom" src="350975__cabled_mess__boom_c_02.wav"></audio>
   <script>
     let clickCount = 0;
+    let boomCount = 0;
     const clickSound = document.getElementById('click')
     const boomSound = document.getElementById('boom')
     let lastSound = clickSound;
@@ -166,8 +176,14 @@
       clickCount++
       if (clickCount % 3 == 0) {
         // boom
+        boomCount++
         boomSound.play();
         lastSound = boomSound
+        if (boomCount % 2 == 1) {
+          document.querySelector('h1').classList.remove('hidden')
+        } else {
+          document.querySelector('h1').classList.add('hidden')
+        }
       } else {
         clickSound.play();
         lastSound = clickSound
@@ -176,6 +192,10 @@
       console.log(`ev in onClick ${ev}`)
       // TODO: 2 - REMOVE THE TABLE CELL THAT WAS CLICKED
       ev.target.remove()
+
+      document.querySelectorAll('tr').forEach(tr => {
+        tr.childElementCount % 2 == 1 ? tr.classList.add('odd') : tr.classList.remove('odd')
+      })
     }
   </script>
 </body>
